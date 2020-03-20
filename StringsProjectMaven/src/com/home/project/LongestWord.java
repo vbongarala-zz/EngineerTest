@@ -1,26 +1,34 @@
 package com.home.project;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 public class LongestWord {
 
 	public static void main(String[] args) {
 		
-		//take string input from user
+		
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
+		//take string input from user
 		System.out.println("Enter a string:");
 		String str = sc.nextLine();
 		LongestWord obj = new LongestWord();
-		//invoke findLongestWord method
-		String longestWord = obj.findLongestWord(str);
-		if(longestWord.length()>0){
-			//print the longest word and its length
-			System.out.println("You entered String ::" + str);
-			System.out.println(longestWord + " is the longest word with " + longestWord.length() + " characters");
+		if(str.length()>0){
+			System.out.println("You entered String:" + str);
+			//invoke findLongestWord method
+			List<String> longestWord = obj.findLongestWord(str);
+			//print the longest word and its length\
+			System.out.println("Longest words are : ");
+			for(String word : longestWord)
+			{
+				System.out.println(word);
+			}
+			String word = longestWord.get(0);
+			System.out.println(longestWord + " is the longest word with " + word.length() + " characters");
 		}
 		else{
 			System.out.println("Entered string is empty");
 		}
-		
 	}
 
 	/**
@@ -28,22 +36,32 @@ public class LongestWord {
 	 * @param longestWord
 	 * @return longestWord
 	 */
-	public String findLongestWord(String str) {
+	public List<String> findLongestWord(String str) {
+		List<String> longestWords=null;
+		int maxLength=Integer.MIN_VALUE;
 		if(str == null || str.length()==0)
 		{
-			return "";
+			return new ArrayList<String>();
 		}
 		
-		String[] words = str.split(" ");
+		//Tokenizing the input using space
+		String[] words = str.trim().split(" ");
+		longestWords=new ArrayList<String>();
 		String longestWord = "";
 		for (int i = 0; i < words.length; i++)
 		{
-			if (words[i].length() >= longestWord.length())
+			if (words[i].length() > maxLength)
 			{
-				longestWord = words[i];
+				maxLength=words[i].length();
+				longestWords.clear();
+				longestWords.add(words[i]);
+				
+			}
+			else if(words[i].length() == maxLength){
+				longestWords.add(words[i]);
 			}
 		}
-		return longestWord;
+		return longestWords;
 	}
 
 }
